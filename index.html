@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Valentine 💖</title>
+
+  <style>
+    body {
+      height: 100vh;
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #ff758c, #ff7eb3);
+      overflow: hidden;
+      text-align: center;
+    }
+
+    h1 {
+      color: #8b0033;
+      font-size: 2.2rem;
+      margin-bottom: 30px;
+      padding: 0 10px;
+    }
+
+    .container {
+      position: relative;
+      width: 90vw;
+      max-width: 350px;
+      height: 200px;
+    }
+
+    button {
+      position: absolute;
+      padding: 14px 28px;
+      font-size: 18px;
+      border-radius: 30px;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    #yes {
+      left: 20px;
+      bottom: 20px;
+      background: #ff1e56;
+      color: white;
+    }
+
+    #no {
+      right: 20px;
+      bottom: 20px;
+      background: #555;
+      color: white;
+    }
+
+    #yes:active {
+      transform: scale(0.95);
+    }
+  </style>
+</head>
+<body>
+
+  <div id="content">
+    <h1>Anjali, will you be my Valentine? 💘</h1>
+
+    <div class="container">
+      <button id="yes">Yes ❤️</button>
+      <button id="no">No 💔</button>
+    </div>
+  </div>
+
+  <script>
+    const noBtn = document.getElementById("no");
+    const container = document.querySelector(".container");
+    const yesBtn = document.getElementById("yes");
+
+    let scale = 1;
+
+    function moveNoButton() {
+      const maxX = container.clientWidth - noBtn.offsetWidth;
+      const maxY = container.clientHeight - noBtn.offsetHeight;
+
+      const x = Math.random() * maxX;
+      const y = Math.random() * maxY;
+
+      noBtn.style.left = x + "px";
+      noBtn.style.top = y + "px";
+
+      scale -= 0.08;
+      if (scale < 0.3) scale = 0.3;
+
+      noBtn.style.transform = `scale(${scale})`;
+    }
+
+    // Desktop
+    noBtn.addEventListener("mouseover", moveNoButton);
+
+    // Mobile
+    noBtn.addEventListener("touchstart", moveNoButton);
+
+    yesBtn.addEventListener("click", () => {
+      document.body.innerHTML = `
+        <div style="
+          height:100vh;
+          display:flex;
+          flex-direction:column;
+          align-items:center;
+          justify-content:center;
+          background:linear-gradient(135deg, #ff758c, #ff7eb3);
+          text-align:center;
+          padding:20px;
+        ">
+          <h1 style="color:#8b0033; font-size:2.4rem;">
+            You don’t have any another choice haha 😌❤️
+          </h1>
+        </div>
+      `;
+    });
+  </script>
+
+</body>
+</html>
