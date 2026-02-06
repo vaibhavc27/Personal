@@ -13,23 +13,40 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background: linear-gradient(135deg, #ff758c, #ff7eb3);
+      background: #fdecef;
       overflow: hidden;
       text-align: center;
     }
 
+    /* subtle hearts background */
+    body::before {
+      content: "❤ ❤ ❤ ❤ ❤ ❤ ❤ ❤";
+      position: absolute;
+      inset: 0;
+      font-size: 40px;
+      color: rgba(200, 100, 120, 0.12);
+      display: flex;
+      flex-wrap: wrap;
+      align-content: space-around;
+      justify-content: space-around;
+      pointer-events: none;
+    }
+
     h1 {
-      color: #8b0033;
+      color: #7a2e3a;
       font-size: 2.2rem;
       margin-bottom: 30px;
       padding: 0 10px;
+      position: relative;
+      z-index: 1;
     }
 
     .container {
       position: relative;
       width: 90vw;
-      max-width: 350px;
-      height: 180px;
+      max-width: 360px;
+      height: 200px;
+      z-index: 1;
     }
 
     button {
@@ -39,20 +56,27 @@
       border-radius: 30px;
       border: none;
       cursor: pointer;
-      transition: left 0.2s ease, top 0.2s ease;
+
+      /* LOCK SIZE */
+      transform: none !important;
+      scale: 1 !important;
+
+      /* Remove default effects */
+      outline: none;
+      box-shadow: none;
     }
 
     #yes {
       left: 20px;
       bottom: 20px;
-      background: #ff1e56;
+      background: #c94a5a;
       color: white;
     }
 
     #no {
       right: 20px;
       bottom: 20px;
-      background: #555;
+      background: #777;
       color: white;
     }
   </style>
@@ -62,7 +86,7 @@
   <div id="content">
     <h1>Anjali, will you be my Valentine? 💘</h1>
 
-    <div class="container">
+    <div class="container" id="area">
       <button id="yes">Yes ❤️</button>
       <button id="no">No 💔</button>
     </div>
@@ -70,15 +94,52 @@
 
   <script>
     const noBtn = document.getElementById("no");
-    const container = document.querySelector(".container");
-    const yesBtn = document.getElementById("yes");
+    const area = document.getElementById("area");
 
-    function moveNoButton() {
-      const maxX = container.clientWidth - noBtn.offsetWidth;
-      const maxY = container.clientHeight - noBtn.offsetHeight;
+    function moveNoFast() {
+      const maxX = area.clientWidth - noBtn.offsetWidth;
+      const maxY = area.clientHeight - noBtn.offsetHeight;
 
       const x = Math.random() * maxX;
       const y = Math.random() * maxY;
 
       noBtn.style.left = x + "px";
-      noBtn.styl
+      noBtn.style.top = y + "px";
+    }
+
+    // Desktop: run when cursor gets near
+    area.addEventListener("mousemove", (e) => {
+      const rect = noBtn.getBoundingClientRect();
+      const dx = e.clientX - (rect.left + rect.width / 2);
+      const dy = e.clientY - (rect.top + rect.height / 2);
+      const distance = Math.sqrt(dx * dx + dy * dy);
+
+      if (distance < 80) {
+        moveNoFast();
+      }
+    });
+
+    // Mobile
+    noBtn.addEventListener("touchstart", moveNoFast);
+
+    document.getElementById("yes").addEventListener("click", () => {
+      document.body.innerHTML = `
+        <div style="
+          height:100vh;
+          display:flex;
+          align-items:center;
+          justify-content:center;
+          background:#fdecef;
+          text-align:center;
+          padding:20px;
+        ">
+          <h1 style="color:#7a2e3a; font-size:2.4rem;">
+            haha, I know you would say yes. 😌❤️
+          </h1>
+        </div>
+      `;
+    });
+  </script>
+
+</body>
+</html>
